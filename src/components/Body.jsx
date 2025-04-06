@@ -22,7 +22,7 @@ const Body = () => {
       });
 
       dispatch(addUser(user.data));
-      console.log(user.data);
+      // console.log(user.data);
     } catch (error) {
       if (error.status === 401) {
         navigate("/login");
