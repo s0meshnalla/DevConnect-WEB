@@ -18,7 +18,6 @@ const Feed = () => {
       });
 
       // console.log(res.data); // Log to inspect the structure
-
       // Dispatch the response to Redux
       dispatch(addFeed(res.data.users)); // Assuming res.data.users contains the user array
     } catch (error) {
@@ -34,7 +33,7 @@ const Feed = () => {
     feed && (
       <div className="flex justify-center my-40">
         {/* Access only the first user (index 0) */}
-        <UserCard user={feed[1]} />
+        <UserCard user={feed[0]} />
       </div>
     )
   );
