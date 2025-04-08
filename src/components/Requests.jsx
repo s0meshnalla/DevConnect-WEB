@@ -1,12 +1,25 @@
 import axios from "axios";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
-import { addRequests } from "../utils/requestSlice";
+import { addRequests, removeRequests } from "../utils/requestSlice";
 
 const Requests = () => {
   const dispatch = useDispatch();
   const requests = useSelector((store) => store.requests);
+
+  const reviewRequest = async (status, _id) => {
+    try {
+      const res = await axios.post(
+        BASE_URL + "/request/review/" + status + "/" + _id,
+        {},
+        { withCredentials: true }
+      );
+      dispatch(removeRequests(_id));
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   const fetchRequest = async () => {
     try {
@@ -35,8 +48,8 @@ const Requests = () => {
   }
 
   return (
-    <div className=" text-center my-10">
-      <h1 className="text-blod text-3xl">Requests</h1>
+    <div className="text-center my-10">
+      <h1 className="font-bold text-3xl">Requests</h1>
 
       {requests.map((request) => {
         const { _id, firstName, lastName, gender, photoUrl, about, age } =
@@ -53,7 +66,7 @@ const Requests = () => {
                 className="w-20 h-20 rounded-full"
               />
             </div>
-            <div className="p-3">
+            <div className="p-3 flex-grow">
               <h2 className="font-bold text-xl">
                 {firstName + " " + lastName}
               </h2>
@@ -61,9 +74,19 @@ const Requests = () => {
               {gender && <p>{gender}</p>}
               <p>{about}</p>
             </div>
-            <div>
-              <button className="btn btn-primary">Accept</button>
-              <button className="btn btn-secondary">Reject</button>
+            <div className="flex flex-col justify-between items-center space-y-2">
+              <button
+                className="btn btn-primary w-28"
+                onClick={() => reviewRequest("accepted", request._id)}
+              >
+                Accept
+              </button>
+              <button
+                className="btn btn-secondary w-28"
+                onClick={() => reviewRequest("rejected", request._id)}
+              >
+                Reject
+              </button>
             </div>
           </div>
         );
