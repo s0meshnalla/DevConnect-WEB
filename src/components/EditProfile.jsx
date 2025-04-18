@@ -1,4 +1,4 @@
-import React, { use, useState } from "react";
+import React, { useState } from "react";
 import UserCard from "./userCard";
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
@@ -13,7 +13,6 @@ const EditProfile = (user) => {
   const [about, setAbout] = useState(user.user.about);
   const [skills, setSkills] = useState(user.user.skills);
   const [showToast, setShowToast] = useState(false);
-
   const [error, setError] = useState("");
 
   const dispatch = useDispatch();
@@ -34,100 +33,78 @@ const EditProfile = (user) => {
         { withCredentials: true }
       );
 
-      // Saving the data in redux-store
       dispatch(addUser(res?.data?.data));
       setShowToast(true);
-
-      const i = setTimeout(() => {
-        setShowToast(false);
-      }, 4000);
+      setTimeout(() => setShowToast(false), 4000);
     } catch (err) {
-      setError(err.response.data);
+      setError(err?.response?.data?.error || "Something went wrong");
     }
   };
 
   return (
     <>
       <div className="flex justify-center my-40 space-x-8">
-        <div className="flex justify-center ">
+        <div className="flex justify-center">
           <div className="card card-border bg-base-300 w-96">
             <div className="card-body">
-              <h2 className="card-title ">Edit Profile</h2>
+              <h2 className="card-title">Edit Profile</h2>
               <div>
-                {/*FirstName Edit Field*/}
                 <fieldset className="fieldset">
                   <legend className="fieldset-legend">FirstName</legend>
                   <input
                     type="text"
                     className="input"
                     value={firstName}
-                    onChange={(e) => {
-                      setFirstname(e.target.value);
-                    }}
+                    onChange={(e) => setFirstname(e.target.value)}
                   />
                 </fieldset>
-                {/*LastName Edit Field*/}
                 <fieldset className="fieldset">
                   <legend className="fieldset-legend">LastName</legend>
                   <input
                     type="text"
                     className="input"
                     value={lastName}
-                    onChange={(e) => {
-                      setLastName(e.target.value);
-                    }}
+                    onChange={(e) => setLastName(e.target.value)}
                   />
                 </fieldset>
-                {/*PhotoUrl Edit Field*/}
                 <fieldset className="fieldset">
                   <legend className="fieldset-legend">PhotoUrl</legend>
                   <input
                     type="text"
                     className="input"
                     value={photoUrl}
-                    onChange={(e) => {
-                      setPhotoUrl(e.target.value);
-                    }}
+                    onChange={(e) => setPhotoUrl(e.target.value)}
                   />
                 </fieldset>
-                {/*Age Edit Field*/}
                 <fieldset className="fieldset">
                   <legend className="fieldset-legend">Age</legend>
                   <input
                     type="text"
                     className="input"
                     value={age}
-                    onChange={(e) => {
-                      setAge(e.target.value);
-                    }}
+                    onChange={(e) => setAge(e.target.value)}
                   />
                 </fieldset>
-                {/*About Edit Field*/}
                 <fieldset className="fieldset">
                   <legend className="fieldset-legend">About</legend>
                   <input
                     type="text"
                     className="input"
                     value={about}
-                    onChange={(e) => {
-                      setAbout(e.target.value);
-                    }}
+                    onChange={(e) => setAbout(e.target.value)}
                   />
                 </fieldset>
-                {/*Skills Edit Field*/}
                 <fieldset className="fieldset">
                   <legend className="fieldset-legend">Skills</legend>
                   <input
                     type="text"
                     className="input"
                     value={skills}
-                    onChange={(e) => {
-                      setSkills(e.target.value);
-                    }}
+                    onChange={(e) => setSkills(e.target.value)}
                   />
                 </fieldset>
               </div>
-              <p className="text-red-500">{error}</p>
+              {error && <p className="text-red-500">{error}</p>}
               <div className="card-actions justify-end">
                 <button className="btn btn-primary" onClick={saveProfile}>
                   Save Profile
@@ -143,7 +120,7 @@ const EditProfile = (user) => {
       {showToast && (
         <div className="toast toast-top toast-center">
           <div className="alert alert-success">
-            <span>Profile Saved Succesfully</span>
+            <span>Profile Saved Successfully</span>
           </div>
         </div>
       )}

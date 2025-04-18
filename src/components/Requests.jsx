@@ -15,9 +15,12 @@ const Requests = () => {
         {},
         { withCredentials: true }
       );
+      console.log(res.data.message); // Show success message
       dispatch(removeRequests(_id));
     } catch (error) {
-      console.log(error.message);
+      const message = error?.response?.data?.error || "Something went wrong";
+      console.error("Review Request Error:", message);
+      alert(message); // Show error to user
     }
   };
 
