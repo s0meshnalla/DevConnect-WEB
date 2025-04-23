@@ -25,44 +25,72 @@ const Connections = () => {
     fetchConnections();
   }, []);
 
-  if (!connections) {
-    return;
-  }
+  if (!connections) return;
 
   if (connections.length === 0) {
     return (
-      <>
-        <h1>No Connections Found</h1>
-      </>
+      <div className="text-center my-10">
+        <h1 className="text-2xl">No Connections Found</h1>
+      </div>
     );
   }
 
   return (
-    <div className=" text-center my-10">
-      <h1 className="text-blod text-3xl">Connections</h1>
+    <div className="text-center my-10">
+      <h1 className="font-bold text-3xl mb-6">Connections</h1>
 
       {connections.map((connection) => {
-        const { _id, firstName, lastName, gender, photoUrl, about, age } =
-          connection;
+        const {
+          _id,
+          firstName,
+          lastName,
+          gender,
+          photoUrl,
+          about,
+          age,
+          socialLinks,
+        } = connection;
+
         return (
           <div
             key={_id}
-            className="flex m-4 p-4 rounded-xl bg-base-200 w-1/2 mx-auto"
+            className="flex flex-col md:flex-row m-4 p-4 rounded-xl bg-base-200 w-full md:w-1/2 mx-auto"
           >
-            <div className="m-4">
+            <div className="m-4 flex justify-center">
               <img
                 alt="photo"
                 src={photoUrl}
                 className="w-20 h-20 rounded-full"
               />
             </div>
-            <div className="p-3">
+            <div className="p-3 flex-grow text-left">
               <h2 className="font-bold text-xl">
-                {firstName + " " + lastName}
+                {firstName} {lastName}
               </h2>
-              {age && <p>{age}</p>}
-              {gender && <p>{gender}</p>}
+              {age && <p>Age: {age}</p>}
+              {gender && <p>Gender: {gender}</p>}
               <p>{about}</p>
+
+              {/* ✅ Render Social Links */}
+              {socialLinks && Object.keys(socialLinks).length > 0 && (
+                <div className="mt-2">
+                  <h3 className="font-bold">Social Links:</h3>
+                  <ul className="list-disc ml-5">
+                    {Object.entries(socialLinks).map(([platform, link]) => (
+                      <li key={platform}>
+                        <a
+                          href={link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-500 hover:underline"
+                        >
+                          {platform}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           </div>
         );
