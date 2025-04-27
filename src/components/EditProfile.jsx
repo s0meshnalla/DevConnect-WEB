@@ -5,14 +5,14 @@ import { BASE_URL } from "../utils/constants";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 
-const EditProfile = (user) => {
-  const [firstName, setFirstname] = useState(user.user.firstName || "");
-  const [lastName, setLastName] = useState(user.user.lastName || "");
-  const [age, setAge] = useState(user.user.age || "");
-  const [photoUrl, setPhotoUrl] = useState(user.user.photoUrl || "");
-  const [about, setAbout] = useState(user.user.about || "");
-  const [skills, setSkills] = useState(user.user.skills || []);
-  const [socialLinks, setSocialLinks] = useState(user.user.socialLinks || {});
+const EditProfile = ({ user }) => {
+  const [firstName, setFirstname] = useState(user?.firstName || "");
+  const [lastName, setLastName] = useState(user?.lastName || "");
+  const [age, setAge] = useState(user?.age || "");
+  const [photoUrl, setPhotoUrl] = useState(user.photoUrl || "");
+  const [about, setAbout] = useState(user?.about || "");
+  const [skills, setSkills] = useState(user?.skills || []);
+  const [socialLinks, setSocialLinks] = useState(user?.socialLinks || {});
   const [showToast, setShowToast] = useState(false);
   const [error, setError] = useState("");
 
